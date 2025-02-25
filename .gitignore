@@ -1,0 +1,30 @@
+# ignore specific files
+key.key
+giblets.py
+.DS_Store
+*sandbox*
+
+# ignore folders (this_folder/)
+db_disk/
+X-ARCHIVE/
+V-VAULT/
+Y-BACKUP/
+
+# ignore file types (*.extension)
+# git conflict files
+*.orig
+
+# ### standard python stuff
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

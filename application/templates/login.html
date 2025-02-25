@@ -1,0 +1,39 @@
+
+
+{% extends "base_TIDES.html" %}
+
+
+{% block content %}
+<html>
+<head>
+	<style>
+
+        
+    </style>
+</head>
+
+<div class="standard-block mt-3 pb-2">
+	<h3 class="story">AditTools</h3>
+	<p>AditTools is a privately controlled access for AditNW customers only.  Logging in will gain you access to proprietary tools and API's.</p>
+	<p>For a login, please contact brad.allen@aditnw.com</p>
+	<p>If you were looking for the AditNW LLC website, please go to <a href='https://www.aditnw.com'>aditnw.com</a></p>
+	<p>note:  you will need cookies enabled to navigate AditTools</p>
+</div>
+
+<!-- Login -->
+
+{% if message != None %}
+    {% include 'block_message.html' %}
+{% endif %}
+
+{% include "block_login.html" %}
+
+
+
+<div class="standard-block mt-3 pb-2">
+	<p>server rev {{ revision }}</p>
+	<p>Adittools server is currently in beta testing</p>
+</div>
+
+
+{% endblock %}

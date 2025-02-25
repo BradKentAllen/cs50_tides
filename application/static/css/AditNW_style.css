@@ -1,0 +1,187 @@
+/*--
+Adit green          #165d01
+Map green           #9eac88
+Text Shade green    #0b1908
+Text grey           #e9e9e9
+Adit4Good blue      #2342ca
+
+--*/
+
+
+
+/*-- Global Styles --*/
+.bg-primary{
+    background-color: #165d01!important;
+}
+
+.bg-light{
+    background-color: #ffffff !important;
+}
+
+.bg-danger{
+    background-color: #d77d7d7 !important;
+}
+
+.border-nav {
+    background-color: #ffffff;
+    border-width: 5px;
+    border-color:#0B2545;
+    border-style: solid;
+    border-radius: 20px;
+    color: #13315C;
+    padding: 0px 0px 0px 20px;
+}
+
+
+.text-light .story{
+    font-style: italic;
+    text-align: center;
+}
+
+.teach-text{
+    font-size: .8rem;
+}
+
+/*-- markdown pages --*/
+.mkdwn{
+    background-color: #ffffff;
+    border-width: 5px;
+    border-color:#0B2545;
+    border-style: solid;
+    border-radius: 20px;
+    color: #13315C;
+    padding: 10px 20px 20px 20px;
+}
+
+.mkdwn code{
+    color: #0B2545;
+}
+
+
+.standard-block{
+    background-color: #ffffff;
+    border-width: 5px;
+    border-color:#0B2545;
+    border-style: solid;
+    border-radius: 20px;
+    color: #13315C;
+    padding: 10px 20px 20px 20px;
+}
+
+
+.standard-block p{
+    line-height: 1.1;
+}
+
+/*-- form input tools --*/
+.dropdown{
+    background-color: #ffffff;
+    min-width: 1rem;
+    color: #13315C;
+    padding: 10px 20px 20px 20px;
+}
+
+
+
+/*-- tooltips --*/
+
+.tooltip-inner {
+    background: #0B1908;
+}
+
+
+.tooltip.show {
+    opacity: 1;
+}
+
+
+
+/* Primary Button  */
+.btn-primary, .btn-primary:active, .btn-primary:visited {
+    background-color: #81BE1C;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#433721;
+    border-radius: 10px;
+    color:#ffffff ;
+}
+
+.btn-primary:hover{
+    background-color: #5a9000;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#13315C;
+    border-radius: 10px;
+    color:#ffffff;
+}
+
+.btn-primary[disabled]{
+    background-color: #485696;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#433721;
+    border-radius: 10px;
+    color:#ffffff ;
+}
+
+
+/* Secondary Button  (lighter button, used for cancel) */
+
+.btn-secondary, .btn-secondary:active, .btn-secondary:visited {
+    background-color: #ffffff;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#433721;
+    border-radius: 10px;
+    color:#433721 ;
+}
+
+.btn-secondary:hover{
+    background-color: #5a9000;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#13315C;
+    border-radius: 10px;
+    color:#ffffff;
+}
+
+.btn-secondary[disabled]{
+    background-color: #7C7A7A;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#13315C;
+    border-radius: 10px;
+    color:#ffffff ;
+}
+
+
+/* 'Danger' Button  (lighter button, used for cancel) */
+
+.btn-danger, .btn-secondary:active, .btn-secondary:visited {
+    background-color: #d77d7d7;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#433721;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.btn-danger:hover{
+    background-color: #5a9000;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#13315C;
+    border-radius: 10px;
+    color:#ffffff;
+}
+
+.btn-danger[disabled]{
+    background-color: #7C7A7A;
+    border-width: 3px;
+    border-style: solid;
+    border-color:#13315C;
+    border-radius: 10px;
+    color:#ffffff ;
+}
+
+

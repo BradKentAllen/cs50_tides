@@ -1,0 +1,3 @@
+username,full_name,email,hashed_password,scope,disabled
+BradAllen,Brad Allen,allensxx5@gmail.com,$2b$12$jws40LNvkG1r/1ODN9T1U.r6Y4JEg0FtDmS3y4QOxL.REMQwdu6yO,user,FALSE
+JohnDoe,John Doe,john_999@gmail.com,$2b$12$CQnwZF5QLvtibsgiF4HjweDAKDtXEPZLmENNubt9d90Nkd2n86MRm,user,TRUE

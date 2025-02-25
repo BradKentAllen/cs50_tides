@@ -1,0 +1,38 @@
+<!-- block_login.html -->
+
+{% block content %}
+
+	<!-- Login block -->
+
+<div class="standard-block mt-3 pb-2">
+	<h3>Login</h3>
+	<form method="POST" action="/login" style="text-align: left" form id="login">
+		<div class="row">
+			<div class="col-2">
+				<label for="username">email</label>
+			</div>
+			<div class="col-3">
+				<input type="text" id="username" value="x" name="username">
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-2">
+				<label for="password">password</label>
+			</div>
+			<div class="col-3">
+				<input type="password" id="password" value="x" name="password">
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="row">
+				<div class="col-2">
+			        <button class="btn btn-primary btn-sm ml-5" style="width: 150px">login</button>
+		        </div>
+		    </div>
+        </div>
+    </form>
+</div>
+
+
+
+{% endblock %}
