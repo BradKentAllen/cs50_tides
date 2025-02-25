@@ -75,12 +75,11 @@ templates = Jinja2Templates(directory="application/templates")
 @app.get('/login')
 def index(request: Request, message: str = None):
     print("\n>>> index GET start<<<<\n")
-    scope = "user"
-    # get cookie and authorize
+    # #### authenticate
+    required_scope = "user"
     cookie_value = authorize.get_auth_cookie_data(request)
-
-    print(f"cookie value:  {cookie_value}")
-    user_info = authorize.authorize(cookie_value, scope)
+    user_info = authorize.authorize(cookie_value, required_scope)
+    # end authenticate
 
     print("\n>>> index GET end<<<<\n")
 
@@ -90,10 +89,13 @@ def index(request: Request, message: str = None):
 @app.get('/test')
 def test(request: Request):
     print("\n>>> test protected path<<<<\n")
-    scope = "user"
-    # get cookie and authorize
+
+    # #### authenticate
+    required_scope = "user"
     cookie_value = authorize.get_auth_cookie_data(request)
-    user_info = authorize.authorize(cookie_value, scope)
+    user_info = authorize.authorize(cookie_value, required_scope)
+    # end authenticate
+
     return "successfully got protected path"
 
    ############################

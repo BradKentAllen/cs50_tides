@@ -5,13 +5,29 @@
 <head>
 	<style>
 
+        .container {
+		    max-width: 590px;
+		    height: 1278px;
+		    width: 100%;
+		    margin: 0 auto;
+		    background: url("/static/img-site/beach_iphone.png") no-repeat center;
+		    background-size: contain; /* Ensures the entire image fits */
+		    background-position: center top; /* Keeps it aligned properly *
+		}
+
         
     </style>
 </head>
+<body>
+	<div class="container">
 
-<h1>Index</h1>
+		<h1>Index</h1>
 
-<p>{{ user_info.get('username') }}: Welcome {{ user_info.get('full_name') }}, you are a {{ user_info.get('scope') }}</p>
+		<p>{{ user_info.get('username') }}: Welcome {{ user_info.get('full_name') }}, you are a {{ user_info.get('scope') }}</p>
+	</div>
+
+</body>
+</html>
 
 
 
