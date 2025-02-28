@@ -25,6 +25,7 @@ revisions are in config
 import os
 from typing import Optional
 from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from contextlib import asynccontextmanager
 
@@ -49,46 +50,69 @@ import application.admin.auth as auth
 from application.utilities.NOAA_tides import NOAA_TIDES
 
 
-# ### Start FastAPI
-print(f'\n\n>>> start FastAPI: {datetime.now()} <<<')
-app = FastAPI()
 
-# #### init the db_disk which creates various db objects for use in other places
+
+# #### set up global objects
 db = db_disk()
+
+tides = NOAA_TIDES(db)
 
 # users_db is static and contains non-changeable user data including pass hash
 authorize = auth.authorize_user(db.users_db, db.log_users)
 
 
+def update_tides_cache():
+    print("- Retrieving NOAA data")
+    stations_tide_dict = tides.create_stations_tides_dict()
+    tide_data = tides.create_tide_data_file(stations_tide_dict)
+    _flag = tides.cache_tide_data(tide_data)
+    print("- Tides cache retrieved and pickle up to date")
+
+
+
+# Nightly, update the tides cache
+def scheduled_task():
+    print(f"Task executed at {datetime.datetime.now()}")
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(scheduled_task, 'cron', hour=1, minute=0)
+scheduler.start()
+
+
+
+# ##### Define Startup and Shutdown events
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # STARTUP
+    print(f'\n\n>>> start FastAPI: {datetime.now()} <<<')
+
+    # On startup, check for tide_cache, update if not for today
+    print("\n>>> Set up tides cache")
+    app.tide_data = tides.get_tide_cache() 
+    if isinstance(app.tide_data, str):
+        print("- No tide cache pickle file, creating up to date pickle file")
+        # indicates no cache file, so create it
+        update_tides_cache()
+    elif isinstance(app.tide_data, dict) and app.tide_data.get("date").date() != datetime.now().date():
+        update_tides_cache()
+    else:
+        print("- Tide cache was already for today")
+
+    yield
+    # SHUT DOWN
+    # Clean up scheduler events
+    scheduler.shutdown()
+
+    # and shutdown
+    print(f'\n\n>>> shutdown FastAPI: {datetime.now()} <<<')
+
+
+# ### Start FastAPI
+app = FastAPI(lifespan=lifespan)
+
 # configure global pathes and objects
 app.mount('/static', StaticFiles(directory='application/static'), name='static')
 templates = Jinja2Templates(directory="application/templates")
-
-
-# #### start up the tides utility
-print("\n>>> Set up tides cache")
-tides = NOAA_TIDES(db)
-
-# check for tide cache
-tide_data = tides.get_tide_cache()
-
-if isinstance(tide_data, str):
-    print("- No tide cache pickle file, creating up to date pickle file")
-    # indicates no cache file, so create it
-    print("- Retrieving NOAA data")
-    stations_tide_dict = tides.create_stations_tides_dict()
-    tide_data = tides.create_tide_data_file(stations_tide_dict)
-    _flag = tides.cache_tide_data(tide_data)
-    print("- Tides cache retrieved and pickle up to date")
-elif isinstance(tide_data, dict) and tide_data.get("date").date() != datetime.now().date():
-    print("- Retrieving NOAA data")
-    stations_tide_dict = tides.create_stations_tides_dict()
-    tide_data = tides.create_tide_data_file(stations_tide_dict)
-    _flag = tides.cache_tide_data(tide_data)
-    print("- Tides cache retrieved and pickle up to date")
-else:
-    print("- Tide cache was already for today")
-
 
 
 
@@ -114,18 +138,17 @@ def index(request: Request, message: str = None):
     return templates.TemplateResponse("index.html", {"request": request,
         'user_info': user_info})
 
-@app.get('/tide')
 @app.get('/tide/{station}')
 def tide(request: Request, station: str = None):
     print("\n>>> endpoint: tide<<<<\n")
     if station is None:
         return "no station in url"
     
-    _station_data = tides.parse_station_tide_data(tide_data, station)
+    _station_data = tides.parse_station_tide_data(app.tide_data, station)
 
     if isinstance(_station_data, str):
         if _station_data == "no station data":
-            return "no data for this station"
+            return "This station is not in the data base or did not have current NOAA data"
 
     _current_tide_height = tides.get_current_tide_height(_station_data)
 
