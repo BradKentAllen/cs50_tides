@@ -111,8 +111,16 @@ class NOAA_TIDES():
     def get_tide_cache(self):
         return self.db.load_pickle_file(config.tides_cache_filepathname)
 
-    def get_next_tide_string(self, tide_dict, time):
+    def parse_station_tide_data(self, tides_data, station_name):
+        '''parse a full tides_data dict to one station's predictions
+        '''
+        station_tide_data = tides_data.get("stations_tides_dict", "no tide data").get(station_name, "no station data")
+        return station_tide_data
+
+    def get_next_tide_string(self, tide_dict, time=datetime.datetime.now()):
         '''returns display string telling type of tide and height
+        IMPORTANT:  the input here is the data for one station, stations_tides must be parsed down to a station using
+        parse station data.
         '''
         # #### Find which two tides you are between
         previous_key = 0
@@ -135,9 +143,6 @@ class NOAA_TIDES():
         tide_string = f"{next_tide_height:.1f}\' {next_tide} at {datetime.datetime.strftime(next_tide_time, '%-I:%M %p')}"
 
         return tide_string
-
-
-
 
     def get_current_tide_height(self, tide_dict):
         '''XXXX needs work

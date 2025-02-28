@@ -77,14 +77,14 @@ if isinstance(tide_data, str):
     # indicates no cache file, so create it
     print("- Retrieving NOAA data")
     stations_tide_dict = tides.create_stations_tides_dict()
-    tides_data = tides.create_tide_data_file(stations_tide_dict)
-    _flag = tides.cache_tide_data(tides_data)
+    tide_data = tides.create_tide_data_file(stations_tide_dict)
+    _flag = tides.cache_tide_data(tide_data)
     print("- Tides cache retrieved and pickle up to date")
 elif isinstance(tide_data, dict) and tide_data.get("date").date() != datetime.now().date():
     print("- Retrieving NOAA data")
     stations_tide_dict = tides.create_stations_tides_dict()
-    tides_data = tides.create_tide_data_file(stations_tide_dict)
-    _flag = tides.cache_tide_data(tides_data)
+    tide_data = tides.create_tide_data_file(stations_tide_dict)
+    _flag = tides.cache_tide_data(tide_data)
     print("- Tides cache retrieved and pickle up to date")
 else:
     print("- Tide cache was already for today")
@@ -113,6 +113,23 @@ def index(request: Request, message: str = None):
 
     return templates.TemplateResponse("index.html", {"request": request,
         'user_info': user_info})
+
+@app.get('/tide')
+@app.get('/tide/{station}')
+def tide(request: Request, station: str = None):
+    print("\n>>> endpoint: tide<<<<\n")
+    if station is None:
+        return "no station in url"
+    
+    _station_data = tides.parse_station_tide_data(tide_data, station)
+
+    if isinstance(_station_data, str):
+        if _station_data == "no station data":
+            return "no data for this station"
+
+    _current_tide_height = tides.get_current_tide_height(_station_data)
+
+    return f"{tides.get_next_tide_string(_station_data)}, current tide is: {_current_tide_height:.1f}"
 
 @app.get('/test')
 def test(request: Request):

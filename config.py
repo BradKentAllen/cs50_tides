@@ -48,6 +48,10 @@ tides_cache_filepathname = "./db_disk/tides_cache.pkl"
 NOAA_data_cache_days = 7
 NOAA_tide_stations = {
     "Arletta": 9446491,
+    "Gig Harbor": 9446369,
+    "Horsehead Bay": 9446451,
+    "Tacoma Narrows Bridge": 9446486,
+
 }
 
 
