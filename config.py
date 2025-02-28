@@ -37,3 +37,17 @@ cookie_expire = 15 # minutes
 # #### file paths
 user_db_file_path_name = "./db_disk/db_users.csv"
 log_users_file_path_name = "./db_disk/log_users.pkl"
+
+
+# ######################
+# ### Tides Settings ###
+# ######################
+
+tides_cache_filepathname = "./db_disk/tides_cache.pkl"
+
+NOAA_data_cache_days = 7
+NOAA_tide_stations = {
+    "Arletta": 9446491,
+}
+
+

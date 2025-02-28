@@ -28,30 +28,33 @@ import pandas as pd
 import requests
 from requests.exceptions import HTTPError
 
+import config
 
-class NOAA_tides():
-    def __init__(self):
-        self.cache_days = 7
-        self.stations_dict = {
-            "Arletta": 9446491,
-        }
 
-    def cache_tides_dict(self):
+class NOAA_TIDES():
+    def __init__(self, db):
+        self.cache_days = config.NOAA_data_cache_days
+        self.stations_dict = config.NOAA_tide_stations
+        self.db = db
+
+    def create_stations_tides_dict(self):
         ''' Cache a single file with tide dict that starts day before at midnight
         and goes for number of days set in __init__
         '''
-        start_datetime = datetime.datetime.now() - datetime.timedelta(days=1).strftime("%Y%m%d")
+        start_datetime = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y%m%d")
         time_range = 24 * self.cache_days
 
-        tides_cache_dict = {}
+        stations_tides_dict = {}
 
         for station in self.stations_dict:
             station_ID = self.stations_dict.get(station, None)
             if station_ID is not None:
-                tide_cache_dict[station] = self.get_tide_prediction(station_ID, start_datetime, time_range)
+                stations_tides_dict[station] = self.get_tide_prediction(station_ID, start_datetime, time_range)
 
-    def get_tide_prediction(self, station_ID, begin_date=datetime.datetime.now().strftime("%Y%m%d"), time_range=48):
-        '''Return JSON from tide API
+        return stations_tides_dict
+
+    def get_tide_prediction(self, station_ID, begin_date=datetime.datetime.now().strftime("%Y%m%d"), time_range=config.NOAA_data_cache_days):
+        '''Return JSON from NOAA and convert to a tide dict
         '''
         url = "&".join(('https://tidesandcurrents.noaa.gov/api/datagetter?datum=mllw',
                         f"begin_date={begin_date}",
@@ -89,6 +92,24 @@ class NOAA_tides():
             tide_dict[_tide_name] = _tide_dict
 
         return tide_dict
+
+    def create_tide_data_file(self, stations_tides_dict):
+        '''creates a dict with date and duration
+        '''
+        return {
+            "stations_tides_dict": stations_tides_dict,
+            "date": datetime.datetime.now(),
+            "duration_days": config.NOAA_data_cache_days,
+        }
+
+    def cache_tide_data(self, tide_dict):
+        '''standard method for caching the tide data
+        '''
+        self.db.pickle_file(tide_dict, config.tides_cache_filepathname)
+        return True
+
+    def get_tide_cache(self):
+        return self.db.load_pickle_file(config.tides_cache_filepathname)
 
     def get_next_tide_string(self, tide_dict, time):
         '''returns display string telling type of tide and height
@@ -175,7 +196,7 @@ class NOAA_tides():
 
 
 if __name__ == "__main__":
-    run = NOAA_tides()  
+    run = NOAA_TIDES(db="fake_db")  
     # #### Test Tides ####
     print("\nTest Tides")
 
@@ -184,15 +205,15 @@ if __name__ == "__main__":
 
     filename = "temp.pkl"
 
-    '''
+   
     # #### IMPORTANT:  Uncomment this section to query the NOAA API
-    tide_dict = get_tide_prediction(station_ID=station_ID)
+    tide_dict = run.get_tide_prediction(station_ID=station_ID)
 
     # Pickle the dictionary and save it to a file
     
     with open(filename, 'wb') as file:
         pickle.dump(tide_dict, file)
-    '''
+   
 
     # Load the pickled dictionary from the file
     with open(filename, 'rb') as file:

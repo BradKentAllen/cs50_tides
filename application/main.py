@@ -26,6 +26,8 @@ import os
 from typing import Optional
 from datetime import datetime
 
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, status, Request, Header, Response, Form, HTTPException, File, UploadFile
 from fastapi.responses import HTMLResponse, FileResponse, JSONResponse, RedirectResponse
 from fastapi.encoders import jsonable_encoder
@@ -44,11 +46,11 @@ import giblets
 import application.admin.exceptions as exceptions
 from application.admin.db_disk_utility import db_disk
 import application.admin.auth as auth
+from application.utilities.NOAA_tides import NOAA_TIDES
 
 
 # ### Start FastAPI
 print(f'\n\n>>> start FastAPI: {datetime.now()} <<<')
-
 app = FastAPI()
 
 # #### init the db_disk which creates various db objects for use in other places
@@ -58,11 +60,37 @@ db = db_disk()
 authorize = auth.authorize_user(db.users_db, db.log_users)
 
 
-
-
 # configure global pathes and objects
 app.mount('/static', StaticFiles(directory='application/static'), name='static')
 templates = Jinja2Templates(directory="application/templates")
+
+
+# #### start up the tides utility
+print("\n>>> Set up tides cache")
+tides = NOAA_TIDES(db)
+
+# check for tide cache
+tide_data = tides.get_tide_cache()
+
+if isinstance(tide_data, str):
+    print("- No tide cache pickle file, creating up to date pickle file")
+    # indicates no cache file, so create it
+    print("- Retrieving NOAA data")
+    stations_tide_dict = tides.create_stations_tides_dict()
+    tides_data = tides.create_tide_data_file(stations_tide_dict)
+    _flag = tides.cache_tide_data(tides_data)
+    print("- Tides cache retrieved and pickle up to date")
+elif isinstance(tide_data, dict) and tide_data.get("date").date() != datetime.now().date():
+    print("- Retrieving NOAA data")
+    stations_tide_dict = tides.create_stations_tides_dict()
+    tides_data = tides.create_tide_data_file(stations_tide_dict)
+    _flag = tides.cache_tide_data(tides_data)
+    print("- Tides cache retrieved and pickle up to date")
+else:
+    print("- Tide cache was already for today")
+
+
+
 
 
     # ######################
