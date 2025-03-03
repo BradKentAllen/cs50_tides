@@ -8,10 +8,17 @@ Adit4Good blue      #2342ca
 --*/
 
 
-
 /*-- Global Styles --*/
+
+body {
+        font-family: 'Comic sans', sans-serif !important; 
+
+    }
+
 .bg-primary{
     background-color: #c9c0b5!important;
+    padding: 50px 50px 50px 50px;
+
 }
 
 .bg-light{
@@ -24,10 +31,10 @@ Adit4Good blue      #2342ca
 
 .border-nav {
     background-color: #ffffff;
-    border-width: 5px;
+    border-width: 2px;
     border-color:#0B2545;
     border-style: solid;
-    border-radius: 20px;
+    border-radius: 2px;
     color: #13315C;
     padding: 0px 0px 0px 20px;
 }
@@ -45,10 +52,10 @@ Adit4Good blue      #2342ca
 /*-- markdown pages --*/
 .mkdwn{
     background-color: #ffffff;
-    border-width: 5px;
+    border-width: 2px;
     border-color:#0B2545;
     border-style: solid;
-    border-radius: 20px;
+    border-radius: 2px;
     color: #13315C;
     padding: 10px 20px 20px 20px;
 }
@@ -60,10 +67,10 @@ Adit4Good blue      #2342ca
 
 .standard-block{
     background-color: #ffffff;
-    border-width: 5px;
+    border-width: 2px;
     border-color:#0B2545;
     border-style: solid;
-    border-radius: 20px;
+    border-radius: 2px;
     color: #13315C;
     padding: 10px 20px 20px 20px;
 }
@@ -99,28 +106,28 @@ Adit4Good blue      #2342ca
 /* Primary Button  */
 .btn-primary, .btn-primary:active, .btn-primary:visited {
     background-color: #81BE1C;
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color:#433721;
-    border-radius: 10px;
+    border-radius: 1px;
     color:#ffffff ;
 }
 
 .btn-primary:hover{
     background-color: #5a9000;
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color:#13315C;
-    border-radius: 10px;
+    border-radius: 1px;
     color:#ffffff;
 }
 
 .btn-primary[disabled]{
     background-color: #485696;
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color:#433721;
-    border-radius: 10px;
+    border-radius: 1px;
     color:#ffffff ;
 }
 
@@ -129,28 +136,28 @@ Adit4Good blue      #2342ca
 
 .btn-secondary, .btn-secondary:active, .btn-secondary:visited {
     background-color: #ffffff;
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color:#433721;
-    border-radius: 10px;
+    border-radius: 1px;
     color:#433721 ;
 }
 
 .btn-secondary:hover{
     background-color: #5a9000;
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color:#13315C;
-    border-radius: 10px;
+    border-radius: 1px;
     color:#ffffff;
 }
 
 .btn-secondary[disabled]{
     background-color: #7C7A7A;
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color:#13315C;
-    border-radius: 10px;
+    border-radius: 1px;
     color:#ffffff ;
 }
 
@@ -159,28 +166,28 @@ Adit4Good blue      #2342ca
 
 .btn-danger, .btn-secondary:active, .btn-secondary:visited {
     background-color: #d77d7d7;
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color:#433721;
-    border-radius: 10px;
+    border-radius: 1px;
     color: #ffffff;
 }
 
 .btn-danger:hover{
     background-color: #5a9000;
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color:#13315C;
-    border-radius: 10px;
+    border-radius: 1px;
     color:#ffffff;
 }
 
 .btn-danger[disabled]{
     background-color: #7C7A7A;
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color:#13315C;
-    border-radius: 10px;
+    border-radius: 1px;
     color:#ffffff ;
 }
 

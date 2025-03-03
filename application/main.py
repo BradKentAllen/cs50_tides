@@ -13,6 +13,8 @@ notes on use:
 - log_users is a dynamic data dict that is periodically pickled
 - both are fully contained in the db_disk_utility object db_disk
 
+IMPORTANT:  reboot nightly on RPi using a crontab timer
+
 copyright 2025, MIT License, AditNW LLC
 
 repo location:  GitHub
@@ -42,7 +44,6 @@ from fastapi.templating import Jinja2Templates
 import markdown as mk
 
 import config
-import giblets
 
 import application.admin.exceptions as exceptions
 from application.admin.db_disk_utility import db_disk

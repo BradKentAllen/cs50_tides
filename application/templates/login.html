@@ -12,6 +12,29 @@
     </style>
 </head>
 
+
+
+<!-- Login -->
+
+<div class="row">
+
+	<div class="col-3">
+	    {% if message != None %}
+	        {% include 'block_message.html' %}
+	    {% endif %}
+	</div>
+
+	<div class="col-6">
+		{% include "block_login.html" %}
+	</div>
+	<div class="col-3">
+		<div class="standard-block mt-3 pb-2">
+			<p>server rev {{ revision }}</p>
+			<p>Adittools server is currently in beta testing</p>
+		</div>
+	</div>
+</div>
+
 <div class="standard-block mt-3 pb-2">
 	<h3 class="story">AditTools</h3>
 	<p>AditTools is a privately controlled access for AditNW customers only.  Logging in will gain you access to proprietary tools and API's.</p>
@@ -20,20 +43,10 @@
 	<p>note:  you will need cookies enabled to navigate AditTools</p>
 </div>
 
-<!-- Login -->
-
-{% if message != None %}
-    {% include 'block_message.html' %}
-{% endif %}
-
-{% include "block_login.html" %}
 
 
 
-<div class="standard-block mt-3 pb-2">
-	<p>server rev {{ revision }}</p>
-	<p>Adittools server is currently in beta testing</p>
-</div>
+
 
 
 {% endblock %}
