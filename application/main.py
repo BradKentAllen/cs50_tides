@@ -155,6 +155,44 @@ def tide(request: Request, station: str = None):
 
     return f"{tides.get_next_tide_string(_station_data)}, current tide is: {_current_tide_height:.1f}"
 
+@app.get('/tideTEST/{station}')
+def tideTEST(request: Request, station: str = None):
+    print("\n>>> endpoint: tideTEST<<<<\n")
+    if station is None:
+        return "no station in url"
+    
+    _station_data = tides.parse_station_tide_data(app.tide_data, station)
+
+    if isinstance(_station_data, str):
+        if _station_data == "no station data":
+            return "This station is not in the data base or did not have current NOAA data"
+
+    
+    _current_tide_height = -3
+
+    _current_tide_height = round(tides.get_current_tide_height(_station_data), 1)
+
+
+
+    if _current_tide_height >= 15:
+        water_photo_name = "ocean15.png"
+    elif _current_tide_height <= -4:
+        water_photo_name = "ocean-4.png"
+    else:
+        water_photo_name = f"ocean{_current_tide_height:.0f}.png"
+
+    print(f"water_photo_name: {water_photo_name}")
+
+    _tide_dict = {
+        "current tide height": None,
+        "next tide": None,
+        "next tide text": None,
+    }
+
+    return templates.TemplateResponse("tide.html", {"request": request,
+        'water_photo_name': water_photo_name})
+
+
 @app.get('/test')
 def test(request: Request):
     print("\n>>> test protected path<<<<\n")
