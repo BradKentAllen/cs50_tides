@@ -167,16 +167,22 @@ def tideTEST(request: Request, station: str = None):
         if _station_data == "no station data":
             return "This station is not in the data base or did not have current NOAA data"
 
-    
+    ''' XXX DEBUG
     _current_tide_height = 12
     _next_tide_text = "-4' low at 9:30 PM"
+    '''
 
-    #_current_tide_height = round(tides.get_current_tide_height(_station_data), 1)
-    #_next_tide_text = tides.get_next_tide_string(_station_data)
+    _current_tide_height = round(tides.get_current_tide_height(_station_data), 1)
+    _next_tide_text = tides.get_next_tide_string(_station_data)
 
     _next_tide_height = int(float(_next_tide_text.split("\'")[0]))
     _next_tide_text_position = 115 * int(_next_tide_height + 6)
-    _current_tide_text_position = 115 * int(_current_tide_height + 6) - 100
+    _current_tide_text_position = 115 * int(_current_tide_height + 6) - 200
+
+    # scale for screen size
+    _ratio = 1800 / 2556
+    _next_tide_text_position = int(_ratio * _next_tide_text_position)
+    _current_tide_text_position = int(_ratio * _current_tide_text_position)
 
     if "High" in _next_tide_text:
         _next_tide = "high"
@@ -200,7 +206,7 @@ def tideTEST(request: Request, station: str = None):
         "current tide height": _current_tide_height,
         "current tide text position": _current_tide_text_position,
         "next tide": _next_tide,
-        "next tide text": f"---- Next tide: -------- {_next_tide_text} -------",
+        "next tide text": f"---- {_next_tide_text} -------",
         "next tide text position": _next_tide_text_position,
         "next tide text color": _next_tide_text_color,
     }

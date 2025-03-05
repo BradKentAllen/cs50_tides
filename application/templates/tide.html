@@ -3,6 +3,15 @@
 
 <html>
 <head>
+	<title>Tides</title>
+    <link rel="shortcut icon" href="/static/img-site/GBH clean.png">
+
+    <meta charset="utf-8">
+
+    <!-- this eliminates favicon request errors -->
+    <link rel="icon" href="data:,">
+
+
 	<style>
 		body {
 		    font-family: 'Comic sans', sans-serif !important; 
@@ -19,13 +28,13 @@
     </style>
 </head>
 <body>
-	<img class="photo" src="/static/img-site/beach_iphone.png">
-	<img class="photo" src="/static/img-site/{{water_photo_name}}">
-	<div style="position: absolute; left: 100px; top: {{ tide_dict.get('next tide text position') }}px; font-size: 32px; color: {{tide_dict.get("next tide text color")}};">
+	<img class="photo" style="height: 1800px; width: 1000px;" src="/static/img-site/beach_iphone.png">
+	<img class="photo" style="height: 1800px; width: 1000px;" src="/static/img-site/{{water_photo_name}}">
+	<div style="position: absolute; left: 100px; top: {{ tide_dict.get('next tide text position') }}px; font-size: 64px; color: {{tide_dict.get("next tide text color")}};">
 	    	<p class="next_tide">{{tide_dict.get("next tide text")}}</p>
 	</div>
 
-	<div style="position: absolute; left: 100px; top: {{ tide_dict.get('current tide text position') }}px; font-size: 32px; color: white;">
+	<div style="position: absolute; left: 100px; top: {{ tide_dict.get('current tide text position') }}px; font-size: 64px; color: white;">
 	    	<p class="current_tide">Current tide at: {{ tide_dict.get("current tide height")}}'</p>
 	</div>
 	
