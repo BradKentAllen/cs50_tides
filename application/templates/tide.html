@@ -9,26 +9,28 @@
 
 		}
 
-        .container {
-		    max-width: 590px;
-		    height: 1278px;
-		    width: 100%;
-		    margin: 0 auto;
-		    background: url("/static/img-site/beach_iphone.png") no-repeat center;
-		    background-size: contain; /* Ensures the entire image fits */
-		    background-position: center top; /* Keeps it aligned properly */
+		.photo {
+			position: absolute; /* Allows x, y positioning */
+			left: 0px; /* X coordinate */
+			top: 0px;  /* Y coordinate */
 		}
-
 
         
     </style>
 </head>
 <body>
-	<img src="/static/img-site/{{water_photo_name}}">
-	<div class="container">
-
-		<p>XXX</p>
+	<img class="photo" src="/static/img-site/beach_iphone.png">
+	<img class="photo" src="/static/img-site/{{water_photo_name}}">
+	<div style="position: absolute; left: 100px; top: {{ tide_dict.get('next tide text position') }}px; font-size: 32px; color: {{tide_dict.get("next tide text color")}};">
+	    	<p class="next_tide">{{tide_dict.get("next tide text")}}</p>
 	</div>
+
+	<div style="position: absolute; left: 100px; top: {{ tide_dict.get('current tide text position') }}px; font-size: 32px; color: white;">
+	    	<p class="current_tide">Current tide at: {{ tide_dict.get("current tide height")}}'</p>
+	</div>
+	
+	
+
 
 </body>
 </html>

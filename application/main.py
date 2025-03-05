@@ -168,9 +168,22 @@ def tideTEST(request: Request, station: str = None):
             return "This station is not in the data base or did not have current NOAA data"
 
     
-    _current_tide_height = -3
+    _current_tide_height = 12
+    _next_tide_text = "-4' low at 9:30 PM"
 
-    _current_tide_height = round(tides.get_current_tide_height(_station_data), 1)
+    #_current_tide_height = round(tides.get_current_tide_height(_station_data), 1)
+    #_next_tide_text = tides.get_next_tide_string(_station_data)
+
+    _next_tide_height = int(float(_next_tide_text.split("\'")[0]))
+    _next_tide_text_position = 115 * int(_next_tide_height + 6)
+    _current_tide_text_position = 115 * int(_current_tide_height + 6) - 100
+
+    if "High" in _next_tide_text:
+        _next_tide = "high"
+        _next_tide_text_color = "black"
+    else:
+        _next_tide = "low"
+        _next_tide_text_color = "white"
 
 
 
@@ -181,16 +194,23 @@ def tideTEST(request: Request, station: str = None):
     else:
         water_photo_name = f"ocean{_current_tide_height:.0f}.png"
 
-    print(f"water_photo_name: {water_photo_name}")
+    
 
     _tide_dict = {
-        "current tide height": None,
-        "next tide": None,
-        "next tide text": None,
+        "current tide height": _current_tide_height,
+        "current tide text position": _current_tide_text_position,
+        "next tide": _next_tide,
+        "next tide text": f"---- Next tide: -------- {_next_tide_text} -------",
+        "next tide text position": _next_tide_text_position,
+        "next tide text color": _next_tide_text_color,
     }
 
+    print(f"water_photo_name: {water_photo_name}")
+    for key, data in _tide_dict.items():
+        print(f"{key}: {data}")
+
     return templates.TemplateResponse("tide.html", {"request": request,
-        'water_photo_name': water_photo_name})
+        'water_photo_name': water_photo_name, 'tide_dict': _tide_dict})
 
 
 @app.get('/test')
