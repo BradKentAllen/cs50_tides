@@ -1,0 +1,12 @@
+# title:  FastAPI service framework with Tides
+
+# name: Brad Allen
+
+# edX name:  Brad Allen
+
+# GitHub name: BradKentAllen
+
+# location:  Gig Harbor,  Washington
+
+# date:  February 5, 2025
+

@@ -73,7 +73,7 @@ def update_tides_cache():
 
 # Nightly, update the tides cache
 def scheduled_task():
-    print(f"Task executed at {datetime.datetime.now()}")
+    print(f"Task executed at {datetime.now()}")
 
 scheduler = BackgroundScheduler()
 scheduler.add_job(scheduled_task, 'cron', hour=1, minute=0)
@@ -151,27 +151,6 @@ def tide(request: Request, station: str = None):
         if _station_data == "no station data":
             return "This station is not in the data base or did not have current NOAA data"
 
-    _current_tide_height = tides.get_current_tide_height(_station_data)
-
-    return f"{tides.get_next_tide_string(_station_data)}, current tide is: {_current_tide_height:.1f}"
-
-@app.get('/tideTEST/{station}')
-def tideTEST(request: Request, station: str = None):
-    print("\n>>> endpoint: tideTEST<<<<\n")
-    if station is None:
-        return "no station in url"
-    
-    _station_data = tides.parse_station_tide_data(app.tide_data, station)
-
-    if isinstance(_station_data, str):
-        if _station_data == "no station data":
-            return "This station is not in the data base or did not have current NOAA data"
-
-    ''' XXX DEBUG
-    _current_tide_height = 12
-    _next_tide_text = "-4' low at 9:30 PM"
-    '''
-
     _current_tide_height = round(tides.get_current_tide_height(_station_data), 1)
     _next_tide_text = tides.get_next_tide_string(_station_data)
 
@@ -211,9 +190,11 @@ def tideTEST(request: Request, station: str = None):
         "next tide text color": _next_tide_text_color,
     }
 
+    ''' DEBUG
     print(f"water_photo_name: {water_photo_name}")
     for key, data in _tide_dict.items():
         print(f"{key}: {data}")
+    '''
 
     return templates.TemplateResponse("tide.html", {"request": request,
         'water_photo_name': water_photo_name, 'tide_dict': _tide_dict})
