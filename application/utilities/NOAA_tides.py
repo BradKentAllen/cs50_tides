@@ -167,11 +167,6 @@ class NOAA_TIDES():
         # use keys to get tides at start and finish of 
         start_tide_dict = tide_dict[previous_key]
         end_tide_dict = tide_dict[key]
-
-        print('\n start_tide_dict:')
-        print(start_tide_dict)
-        print('\n end_tide_dict:')
-        print(end_tide_dict)
         
         minutes_span = int(((end_tide_dict.get('time') - start_tide_dict.get('time')).total_seconds()/60))
 

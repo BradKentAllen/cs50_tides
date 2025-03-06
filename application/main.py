@@ -147,12 +147,16 @@ def tide(request: Request, station: str = None):
     
     _station_data = tides.parse_station_tide_data(app.tide_data, station)
 
+
     if isinstance(_station_data, str):
         if _station_data == "no station data":
             return "This station is not in the data base or did not have current NOAA data"
 
     _current_tide_height = round(tides.get_current_tide_height(_station_data), 1)
     _next_tide_text = tides.get_next_tide_string(_station_data)
+
+    print("\n_next_tide_text:")
+    print(_next_tide_text)
 
     _next_tide_height = int(float(_next_tide_text.split("\'")[0]))
     _next_tide_text_position = 115 * int(_next_tide_height + 6)
@@ -190,11 +194,13 @@ def tide(request: Request, station: str = None):
         "next tide text color": _next_tide_text_color,
     }
 
-    ''' DEBUG
+    # XXX DEBUG
+    print(f"\n>>> DEBUG tide - END:")
     print(f"water_photo_name: {water_photo_name}")
+    print("_tide_dict:")
     for key, data in _tide_dict.items():
         print(f"{key}: {data}")
-    '''
+
 
     return templates.TemplateResponse("tide.html", {"request": request,
         'water_photo_name': water_photo_name, 'tide_dict': _tide_dict})
