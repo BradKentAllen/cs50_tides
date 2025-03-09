@@ -147,6 +147,10 @@ def tide(request: Request, station: str = None):
     
     _station_data = tides.parse_station_tide_data(app.tide_data, station)
 
+    print("\n>>> _station_data")
+    for key, data in _station_data.items():
+        print(f"{key}: {data}")
+
 
     if isinstance(_station_data, str):
         if _station_data == "no station data":
@@ -178,6 +182,8 @@ def tide(request: Request, station: str = None):
 
     if _current_tide_height >= 15:
         water_photo_name = "ocean15.png"
+    elif -4 < _current_tide_height < 0:
+        water_photo_name = f"ocean-{abs(_current_tide_heigh)}.png"
     elif _current_tide_height <= -4:
         water_photo_name = "ocean-4.png"
     else:
@@ -195,11 +201,13 @@ def tide(request: Request, station: str = None):
     }
 
     # XXX DEBUG
+    '''
     print(f"\n>>> DEBUG tide - END:")
     print(f"water_photo_name: {water_photo_name}")
     print("_tide_dict:")
     for key, data in _tide_dict.items():
         print(f"{key}: {data}")
+    '''
 
 
     return templates.TemplateResponse("tide.html", {"request": request,

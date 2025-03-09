@@ -117,15 +117,24 @@ class NOAA_TIDES():
         station_tide_data = tides_data.get("stations_tides_dict", "no tide data").get(station_name, "no station data")
         return station_tide_data
 
-    def get_next_tide_string(self, tide_dict, time=datetime.datetime.now()):
+    def get_next_tide_string(self, tide_dict, time=None):
         '''returns display string telling type of tide and height
         IMPORTANT:  the input here is the data for one station, stations_tides must be parsed down to a station using
         parse station data.
         '''
+        print(">>>> get_next_tide_string <<<")
+
+        # note:  you cannot dynamically assign a default value in the function because the default will be assigned when the 
+        # class inits, not each time it runs.
+
+        if not isinstance(time, datetime.datetime):
+            time = datetime.datetime.now()
+        print(f"will use this time: {time}")
+        print(f"datatime.datetime.now(): {datetime.datetime.now()}")
         # #### Find which two tides you are between
         previous_key = 0
         for key, value in tide_dict.items():
-            #print(f'{key}: {value}')
+            print(f'{key}: {value}')
             if time <= value.get('time'):
                 break
 
